@@ -19,7 +19,7 @@ class App extends Component {
     super()
     this.state = {
       message: [],
-      endpoint: "localhost:4000" // เชื่อมต่อไปยัง url ของ realtime server
+      endpoint: "104.197.48.192:80" // เชื่อมต่อไปยัง url ของ realtime server
     }
   }
 
@@ -58,7 +58,7 @@ class App extends Component {
     })
 
     return (
-      <div>
+      <div style={{marginTop : '5vh'}}>
         <div>
           {/* <BarChart width={1600} height={500} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
