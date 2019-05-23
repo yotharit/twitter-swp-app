@@ -14,9 +14,22 @@ import {
 import moment from 'moment'
 import 'moment/locale/th'
 
+// const firebase = require("firebase-admin");
+// // const serviceAccount = require('../swp-final-twitter-241418-firebase-adminsdk-cptoe-7952542f40')
+
+
+
+
 class App extends Component {
   constructor() {
     super()
+    // var db = firebase.database()
+    // var ref = db.ref("data")
+    // var messageRef = ref.child("message")
+
+    // messageRef.once('value', function (snapshot) {
+    //   console.log(snapshot.val())
+    // })
     this.state = {
       message: [],
       endpoint: "104.197.48.192:80" // เชื่อมต่อไปยัง url ของ realtime server
@@ -41,7 +54,7 @@ class App extends Component {
     message.forEach(m => {
       let text = m.text
       if (text && typeof text === 'string' && text.toUpperCase().includes('#TRADEWAR')) {
-        let ms = m.timestamp/1000
+        let ms = m.timestamp / 1000
         // let datetime = new Date(m.timestamp * 1000);
         // let hours = datetime.getHours()
         // let minutes = datetime.getMinutes()
@@ -58,7 +71,7 @@ class App extends Component {
     })
 
     return (
-      <div style={{marginTop : '5vh'}}>
+      <div style={{ marginTop: '5vh' }}>
         <div>
           {/* <BarChart width={1600} height={500} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
