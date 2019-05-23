@@ -62,7 +62,7 @@ class App extends Component {
             tempArray.push({ text: m.text, timestamp: m.timestamp_ms })
           }
         })
-        this.setState({message : tempArray})
+        this.setState({message : [...this.state.message, ...tempArray]})
       })
     socket.on('new-message', (messageNew) => {
       let temp = message
@@ -80,11 +80,6 @@ class App extends Component {
       let text = m.text
       if (text && typeof text === 'string' && text.toUpperCase().includes('#TRADEWAR')) {
         let ms = m.timestamp / 1000
-        // let datetime = new Date(m.timestamp * 1000);
-        // let hours = datetime.getHours()
-        // let minutes = datetime.getMinutes()
-        // let hours = Math.floor((ms / 3600000) / 365)
-        // let minutes = Math.floor((ms % 3600000) / 60000)
         let time = moment.unix(ms).format('hh:mm')
         const findData = graphData.find(d => d.time === time)
         if (findData) {
@@ -98,19 +93,7 @@ class App extends Component {
     return (
       <div style={{ marginTop: '5vh' }}>
         <div>
-          {/* <BarChart width={1600} height={500} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="count" fill="#8884d8" />
-          </BarChart> */}
-          {/* <LineChart width={400} height={400} data={data}>
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-          </LineChart> */}
-
-          <LineChart width={730} height={250} data={graphData}
+          <LineChart width={1300} height={400} data={graphData}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="time" />
