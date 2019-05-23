@@ -8,8 +8,8 @@ import {
   Tooltip,
   Legend,
   Bar,
-  // Line,
-  // LineChart,
+  Line,
+  LineChart,
 } from 'recharts'
 
 class App extends Component {
@@ -33,23 +33,25 @@ class App extends Component {
 
   render() {
     const { message } = this.state
-    // const data = []
-    // message.forEach(m => {
-    //   if (m && typeof m === 'string' && m.toLowerCase().includes('#')) {
-    //     const hashtags = m.split('#')
-    //     if (!hashtags[1].includes('BNK48'))
-    //       return
-    //     const name = hashtags[1].split('BNK48')[0]
-    //     if (!name)
-    //       return
-    //     const findData = data.find(d => d.name === name)
-    //     if (findData) {
-    //       findData.count++
-    //     } else {
-    //       data.push({ name, count: 1 })
-    //     }
-    //   }
-    // })
+    const graphData = []
+    message.forEach(m => {
+      let text = m.text
+      if (text && typeof text === 'string' && text.toUpperCase().includes('#TRADEWAR')) {
+        let ms = m.timestamp
+        let datetime = new Date(m.timestamp * 1000);
+        let hours = datetime.getHours()
+        let minutes = datetime.getMinutes()
+        // let hours = Math.floor((ms / 3600000) / 365)
+        // let minutes = Math.floor((ms % 3600000) / 60000)
+        let time = hours + ":" + minutes
+        const findData = graphData.find(d => d.time === time)
+        if (findData) {
+          findData.count++
+        } else {
+          graphData.push({ time: time, count: 1 })
+        }
+      }
+    })
 
     return (
       <div>
@@ -65,17 +67,27 @@ class App extends Component {
           {/* <LineChart width={400} height={400} data={data}>
             <Line type="monotone" dataKey="uv" stroke="#8884d8" />
           </LineChart> */}
+
+          <LineChart width={730} height={250} data={graphData}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="time" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="count" stroke="#8884d8" />
+          </LineChart>
         </div>
         <div style={{ height: '600px', overflow: 'scroll' }}>
           {
             message.map((data, i) =>
               <div key={i} style={{ marginTop: 20, paddingLeft: 50 }} >
-                {i + 1} : {data}
+                {i + 1} : {data.text}
               </div>
             )
           }
         </div>
-      </div>
+      </div >
     )
   }
 }
