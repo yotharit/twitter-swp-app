@@ -11,6 +11,8 @@ import {
   Line,
   LineChart,
 } from 'recharts'
+import moment from 'moment'
+import 'moment/locale/th'
 
 class App extends Component {
   constructor() {
@@ -32,18 +34,20 @@ class App extends Component {
   }
 
   render() {
+
+    moment.locale('th')
     const { message } = this.state
     const graphData = []
     message.forEach(m => {
       let text = m.text
       if (text && typeof text === 'string' && text.toUpperCase().includes('#TRADEWAR')) {
-        let ms = m.timestamp
-        let datetime = new Date(m.timestamp * 1000);
-        let hours = datetime.getHours()
-        let minutes = datetime.getMinutes()
+        let ms = m.timestamp/1000
+        // let datetime = new Date(m.timestamp * 1000);
+        // let hours = datetime.getHours()
+        // let minutes = datetime.getMinutes()
         // let hours = Math.floor((ms / 3600000) / 365)
         // let minutes = Math.floor((ms % 3600000) / 60000)
-        let time = hours + ":" + minutes
+        let time = moment(ms).format('hh:mm')
         const findData = graphData.find(d => d.time === time)
         if (findData) {
           findData.count++
